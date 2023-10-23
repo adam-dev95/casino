@@ -28,3 +28,16 @@ def getMenuChoice():
         print("Veuillez entrer un nombre entier entre 1 et 4")
         return getMenuChoice()
 
+def mainMenu():
+    showMenu()
+    userChoice = getMenuChoice()
+    if userChoice == 1:
+        print("Jouer")
+    elif userChoice == 2:
+        showRules()
+        input("Appuyez sur la touche 'entrer' pour revenir au menu principal")
+        mainMenu()
+    elif userChoice == 3:
+        print("Statistiques")
+    elif userChoice == 4:
+        print("Quitter")

@@ -1,8 +1,7 @@
-from menu import showMenu, getMenuChoice
+from menu import mainMenu
 
 def main():
-    showMenu()
-    userChoice = getMenuChoice()
+    mainMenu()
 
 if __name__ == "__main__":
     main()

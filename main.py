@@ -1,6 +1,8 @@
+from menu import showMenu, getMenuChoice
+
 def main():
-    print("Ceci est le fichier main.py.")
-    print("Bonjour, monde !")
+    showMenu()
+    userChoice = getMenuChoice()
 
 if __name__ == "__main__":
     main()

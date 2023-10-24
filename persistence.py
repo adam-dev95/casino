@@ -64,12 +64,12 @@ def insertUserStatistics(id_users, bet, gain, level):
 def getUserStatistics(id):
     connection, cursor = get_cursor()
     if cursor:
-        query = "SELECT AVG(bet) AS average_bet, AVG(gain) AS average_gain, MAX(bet) AS max_bet, MAX(gain) AS max_gain FROM statistics WHERE id_users = %s"
+        query = "SELECT AVG(bet) AS average_bet, AVG(gain) AS average_gain, MAX(bet) AS max_bet, MAX(gain) AS max_gain, (SUM(hasWin) / COUNT(hasWin)) * 100 FROM statistics WHERE id_users = %s"
         cursor.execute(query, (id,))
         result = cursor.fetchone()
         
         column_names = cursor.column_names
         statistics = {column_names[i]: result[i] for i in range(len(column_names))}
-        
         return statistics
+
 

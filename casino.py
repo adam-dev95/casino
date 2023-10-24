@@ -28,8 +28,13 @@ def casino_sextius_sullivan(user):
 
     while COMPTEUR >= 0 and INCR_PARTY >= 0:
         if COMPTEUR == 0:
-           
-            MISE_ACTUEL = int(input("Le jeu commence, entrez votre mise. Entrez une MISE :  "))
+            print("Le jeu commence, entrez votre mise.")
+            MISE_ACTUEL = 0 
+            while MISE_ACTUEL <= 0:
+                try:
+                    MISE_ACTUEL = int(input("Entrez une MISE :  "))
+                except ValueError:
+                    print("Erreur, veuillez entrer un nombre entier")
             if MISE_ACTUEL > user[3]:
                 print("Erreur, votre mise est plus elevé que votre solde.")
                 break
@@ -42,7 +47,13 @@ def casino_sextius_sullivan(user):
         if INCR_PARTY == 1:
             print("Il vous reste une partie")
 
-        nombre_user = int(input("Alors mon nombre est :  "))
+        nombre_user = -1
+
+        while nombre_user < 0:
+            try:
+                nombre_user = int(input("Alors mon nombre est :  "))
+            except ValueError:
+                print("Erreur, veuillez entrer un nombre entier")
 
         if nombre_user > NOMBRE_ALEATOIRE:
             print("Votre nombre est trop grand")

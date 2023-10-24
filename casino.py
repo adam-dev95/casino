@@ -8,7 +8,7 @@ def recommencer_jeu():
 
 def timeout(INCR_PARTY):
     print("Temps écoulé. Aucune réponse n'a été donnée.")
-    INCR_PARTY[0] += 1  # Augmente INCR_PARTY de 1
+    INCR_PARTY[0] -= 1  # Augmente INCR_PARTY de 1
 
 def demander_nombre_utilisateur():
     nombre_user = -1

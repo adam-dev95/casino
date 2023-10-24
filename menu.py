@@ -1,6 +1,6 @@
 from persistence import getUserStatistics
 
-from casino import casino_sextius_sullivan
+from casino import casino
 def showMenu():
     print("Menu:")
     print("1. Jouer")
@@ -34,7 +34,7 @@ def mainMenu(user):
     showMenu()
     userChoice = getMenuChoice()
     if userChoice == 1:
-        casino_sextius_sullivan(user)
+        casino(user)
 
     elif userChoice == 2:
         showRules()

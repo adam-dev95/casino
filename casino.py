@@ -8,7 +8,7 @@ def recommencer_jeu():
 
 def timeout(INCR_PARTY):
     print("Temps écoulé. Aucune réponse n'a été donnée.")
-    INCR_PARTY[0] -= 1  # Augmente INCR_PARTY de 1
+    INCR_PARTY[0] -= 1
 
 def demander_nombre_utilisateur():
     nombre_user = -1
@@ -19,10 +19,10 @@ def demander_nombre_utilisateur():
             print("Erreur, veuillez entrer un nombre entier")
     return nombre_user
 
-def casino_sextius_sullivan(user):
+def casino(user):
     COMPTEUR = 0
     MISE_JOUEUR = 0
-    INCR_PARTY = [0]  # Utilisation d'une liste pour stocker INCR_PARTY
+    INCR_PARTY = [0] 
 
     print("Je viens de penser à un nombre entre 1 et 10. Devinez lequel?")
     print("\t- Att : vous avez le droit à trois essais!")
@@ -51,7 +51,15 @@ def casino_sextius_sullivan(user):
             if MISE_ACTUEL > user[3]:
                 print("Erreur, votre mise est plus élevée que votre solde.")
                 break
-            NIVEAU = int(input("Choisissez un niveau [1 / 2 / 3] "))
+            userLevel = user[2]
+            array = []
+
+            for i in range(1, userLevel + 1):
+                array.append(i)
+
+            result = ', '.join(map(str, array))
+
+            NIVEAU = int(input("Choisissez un niveau [" + result + "] : "))
             
             NOMBRE_ALEATOIRE = random.randint(1, int(NIVEAU * 10))
             print(NOMBRE_ALEATOIRE, "nombre aléatoire")
@@ -72,12 +80,6 @@ def casino_sextius_sullivan(user):
                     raise ValueError
             except ValueError:
                 print("Erreur, veuillez entrer un nombre entier")
-
-        # try:
-        #     nombre_user = int(input("Alors mon nombre est :  "))
-        # except ValueError:
-        #     print("Entrée invalide. Vous devez saisir un nombre entier.")
-        #     exit()
         
         timer.cancel()
 
@@ -88,15 +90,12 @@ def casino_sextius_sullivan(user):
         
         if nombre_user == NOMBRE_ALEATOIRE:
             gain = MISE_ACTUEL * (INCR_PARTY[0] / obj[NIVEAU])
-            print(obj[NIVEAU], INCR_PARTY[0])
-            print("Vous remportez ", gain ,"€")
-            hasWinGame(user[0], gain)
+            hasWinGame(user, gain)
             insertUserStatistics(user[0], MISE_ACTUEL, gain, NIVEAU, obj[NIVEAU] - INCR_PARTY[0], 1)
-
+            print("Bingo !! Vous avez gagné " + str(gain))
             if not recommencer_jeu():
                 break
         
-        # CAS PERDANT
         if nombre_user != NOMBRE_ALEATOIRE and INCR_PARTY[0] == 1:
             perte = MISE_ACTUEL - MISE_JOUEUR
 

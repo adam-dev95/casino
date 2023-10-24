@@ -1,15 +1,7 @@
 from database import get_cursor
-
-def getAllUsers():
-    connection, cursor = get_cursor()
-    if cursor:
-        query = "SELECT * FROM users"
-        cursor.execute(query)
-        users = cursor.fetchall()
-        return users
+connection, cursor = get_cursor()
 
 def getUserByName(name):
-    connection, cursor = get_cursor()
     if cursor:
         query = "SELECT * FROM users WHERE name = %s"
         cursor.execute(query, (name,))
@@ -18,7 +10,6 @@ def getUserByName(name):
         return user
 
 def getUserStatistics(id):
-    connection, cursor = get_cursor()
     if cursor:
         query = "SELECT * FROM statistics WHERE id_users = %s"
         cursor.execute(query, (id,))
@@ -32,7 +23,6 @@ def getUserStatistics(id):
     return None
 
 def increaseMaxWin(user_id, amount_to_increase):
-    connection, cursor = get_cursor()
     if cursor:
         query = "UPDATE statistics SET maxWin = %s WHERE id_users = %s"
         cursor.execute(query, (amount_to_increase, user_id))
@@ -40,7 +30,6 @@ def increaseMaxWin(user_id, amount_to_increase):
 
 
 def loginOrInsertUser(name):
-    connection, cursor = get_cursor()
     if cursor:
         query = "SELECT * FROM users WHERE name = %s"
         cursor.execute(query, (name,))
@@ -55,14 +44,12 @@ def loginOrInsertUser(name):
             return getUserByName(name)
 
 def insertUserStatistics(id_users, bet, gain, level, attempts, hasWin):
-    connection, cursor = get_cursor()
     if cursor:
         query = "INSERT INTO statistics (id_users, bet, gain, level, attempts, hasWin) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(query, (id_users, bet, gain, level, attempts, hasWin))
         connection.commit()
 
 def getUserStatistics(id):
-    connection, cursor = get_cursor()
     if cursor:
         query = "SELECT AVG(bet) AS average_bet, AVG(gain) AS average_gain, MAX(bet) AS max_bet, MAX(gain) AS max_gain, (SUM(hasWin) / COUNT(hasWin)) * 100 FROM statistics WHERE id_users = %s"
         cursor.execute(query, (id,))
@@ -73,7 +60,6 @@ def getUserStatistics(id):
         return statistics
 
 def hasLostGame(user_id, decrement_amount):
-    connection, cursor = get_cursor()
     if cursor:
         check_query = "SELECT balance FROM users WHERE id = %s"
         cursor.execute(check_query, (user_id,))
@@ -91,17 +77,20 @@ def hasLostGame(user_id, decrement_amount):
         else:
             return "L'utilisateur avec l'ID spécifié n'existe pas."
         
-def hasWinGame(user_id, increment_amount):
-    connection, cursor = get_cursor()
+def hasWinGame(user, increment_amount):
     if cursor:
         check_query = "SELECT balance FROM users WHERE id = %s"
-        cursor.execute(check_query, (user_id,))
+        cursor.execute(check_query, (user[0],))
         result = cursor.fetchone()
 
         if result:
             current_balance = result[0]
             update_query = "UPDATE users SET balance = balance + %s WHERE id = %s"
-            cursor.execute(update_query, (increment_amount, user_id))
+            cursor.execute(update_query, (increment_amount, user[0]))
             connection.commit()
+            if user[2] < 3:
+                level_query = "UPDATE users SET level = level + 1 WHERE id = %s"
+                cursor.execute(level_query, ( user[0], ))
+                connection.commit()
         else:
             return "L'utilisateur avec l'ID spécifié n'existe pas."

@@ -100,12 +100,8 @@ def hasWinGame(user_id, increment_amount):
 
         if result:
             current_balance = result[0]
-            if current_balance >= decrement_amount:
-                update_query = "UPDATE users SET balance = balance - %s WHERE id = %s"
-                cursor.execute(update_query, (decrement_amount, user_id))
-                connection.commit()
-                return f"Balance mise à jour avec succès. Nouvelle balance : {current_balance - decrement_amount}"
-            else:
-                return "Fonds insuffisants pour le décrément."
+            update_query = "UPDATE users SET balance = balance + %s WHERE id = %s"
+            cursor.execute(update_query, (increment_amount, user_id))
+            connection.commit()
         else:
             return "L'utilisateur avec l'ID spécifié n'existe pas."

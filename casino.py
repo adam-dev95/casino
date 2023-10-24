@@ -1,10 +1,14 @@
 import random
-from persistence import hasLostGame, insertUserStatistics
+import threading
+from persistence import hasLostGame, insertUserStatistics, hasWinGame
 
 def recommencer_jeu():
     recommencer = input("Voulez-vous recommencer [o/n]")
     return recommencer == "o"
 
+def timeout():
+    print("Temps écoulé. Aucune réponse n'a été donnée.")
+    exit()
 
 def casino_sextius_sullivan(user):
     
@@ -36,14 +40,15 @@ def casino_sextius_sullivan(user):
                 except ValueError:
                     print("Erreur, veuillez entrer un nombre entier")
             if MISE_ACTUEL > user[3]:
-                print("Erreur, votre mise est plus elevé que votre solde.")
+                print("Erreur, votre mise est plus élevée que votre solde.")
                 break
-            NIVEAU = int(input("Choississez un niveau [1 / 2 / 3] "))
-
-            NOMBRE_ALEATOIRE = random.randint(1, int(NIVEAU*10))
+            NIVEAU = int(input("Choisissez un niveau [1 / 2 / 3] "))
+            
+            NOMBRE_ALEATOIRE = random.randint(1, int(NIVEAU * 10))
             print(NOMBRE_ALEATOIRE, "nombre aléatoire")
 
             INCR_PARTY = obj[NIVEAU]
+        
         if INCR_PARTY == 1:
             print("Il vous reste une partie")
 
@@ -54,29 +59,44 @@ def casino_sextius_sullivan(user):
                 nombre_user = int(input("Alors mon nombre est :  "))
             except ValueError:
                 print("Erreur, veuillez entrer un nombre entier")
+        # Utilisation d'un thread de minuterie pour gérer le délai de 10 secondes
+        timer = threading.Timer(10, timeout)
+        timer.start()
+
+        try:
+            nombre_user = int(input("Alors mon nombre est :  "))
+        except ValueError:
+            print("Entrée invalide. Vous devez saisir un nombre entier.")
+            exit()
+        
+        # Annuler la minuterie si l'utilisateur a saisi un nombre
+        timer.cancel()
 
         if nombre_user > NOMBRE_ALEATOIRE:
             print("Votre nombre est trop grand")
         elif nombre_user < NOMBRE_ALEATOIRE:
             print("Votre nombre est trop petit")
+        
         # CAS GAGNANT
         if nombre_user == NOMBRE_ALEATOIRE:
-            gain = MISE_ACTUEL * ( INCR_PARTY / obj[NIVEAU])
+            gain = MISE_ACTUEL * (INCR_PARTY / obj[NIVEAU])
             print(obj[NIVEAU], INCR_PARTY)
             print("Vous remportez ", gain ,"€")
-            
+            hasWinGame(user[0], gain)
+
             if not recommencer_jeu():
                 break
+        
         # CAS PERDANT
         if nombre_user != NOMBRE_ALEATOIRE and INCR_PARTY == 1:
             perte = MISE_ACTUEL - MISE_JOUEUR
 
-            hasLostGame(id, perte)
-            print("Perdu ! Vous avez perdu votre mise, ", perte, "€", "Le nombre était :",NOMBRE_ALEATOIRE)
+            hasLostGame(user[0], perte)
+            print("Perdu ! Vous avez perdu votre mise, ", perte, "€", "Le nombre était :", NOMBRE_ALEATOIRE)
             insertUserStatistics(user[0], perte, 0, NIVEAU, 3, 0)
+            
             if not recommencer_jeu():
                 break
+        
         INCR_PARTY -= 1
         COMPTEUR += 1
-
-

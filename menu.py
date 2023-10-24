@@ -39,9 +39,9 @@ def mainMenu(user):
     elif userChoice == 2:
         showRules()
         input("Appuyez sur la touche 'entrer' pour revenir au menu principal")
-        mainMenu()
+        mainMenu(user)
     elif userChoice == 3:
-        stats = getUserStatistics(id)
+        stats = getUserStatistics(user[0])
         print(stats)
         print("Statistiques")
 

@@ -55,23 +55,21 @@ def casino_sextius_sullivan(user):
             print("Il vous reste une partie")
 
         nombre_user = -1
+        timer = threading.Timer(10, timeout, args=(INCR_PARTY,))
+        timer.start()
 
         while nombre_user < 0:
             try:
                 nombre_user = int(input("Alors mon nombre est :  "))
             except ValueError:
                 print("Erreur, veuillez entrer un nombre entier")
-        # Utilisation d'un thread de minuterie pour gérer le délai de 10 secondes
-        timer = threading.Timer(10, timeout, args=(INCR_PARTY,))
-        timer.start()
 
-        try:
-            nombre_user = int(input("Alors mon nombre est :  "))
-        except ValueError:
-            print("Entrée invalide. Vous devez saisir un nombre entier.")
-            exit()
+        # try:
+        #     nombre_user = int(input("Alors mon nombre est :  "))
+        # except ValueError:
+        #     print("Entrée invalide. Vous devez saisir un nombre entier.")
+        #     exit()
         
-        # Annuler la minuterie si l'utilisateur a saisi un nombre
         timer.cancel()
 
         if nombre_user > NOMBRE_ALEATOIRE:
@@ -79,7 +77,6 @@ def casino_sextius_sullivan(user):
         elif nombre_user < NOMBRE_ALEATOIRE:
             print("Votre nombre est trop petit")
         
-        # CAS GAGNANT
         if nombre_user == NOMBRE_ALEATOIRE:
             gain = MISE_ACTUEL * (INCR_PARTY[0] / obj[NIVEAU])
             print(obj[NIVEAU], INCR_PARTY[0])

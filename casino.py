@@ -91,7 +91,7 @@ def casino_sextius_sullivan(user):
             print(obj[NIVEAU], INCR_PARTY[0])
             print("Vous remportez ", gain ,"€")
             hasWinGame(user[0], gain)
-            insertUserStatistics(user[0], MISE_ACTUEL, gain, NIVEAU, obj[NIVEAU] - INCR_PARTY, 1)
+            insertUserStatistics(user[0], MISE_ACTUEL, gain, NIVEAU, obj[NIVEAU] - INCR_PARTY[0], 1)
 
             if not recommencer_jeu():
                 break

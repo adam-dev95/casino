@@ -1,5 +1,5 @@
 import random
-from persistence import hasLostGame, insertUserStatistics
+from persistence import hasLostGame, insertUserStatistics, hasWinGame
 
 def recommencer_jeu():
     recommencer = input("Voulez-vous recommencer [o/n]")
@@ -53,7 +53,8 @@ def casino_sextius_sullivan(user):
             gain = MISE_ACTUEL * ( INCR_PARTY / obj[NIVEAU])
             print(obj[NIVEAU], INCR_PARTY)
             print("Vous remportez ", gain ,"€")
-            
+            hasWinGame(user[0], gain)
+
             if not recommencer_jeu():
                 break
         # CAS PERDANT

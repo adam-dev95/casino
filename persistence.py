@@ -47,11 +47,9 @@ def loginOrInsertUser(name):
         existing_user = cursor.fetchone()
         
         if existing_user:
-            return f"Bon retour {name} !"
+            return existing_user
         else:
             insert_query = "INSERT INTO users (name) VALUES (%s)"
             cursor.execute(insert_query, (name,))
             connection.commit()
-            return f"Nouvel utilisateur {name} inséré !"
-
-loginOrInsertUser("adam")    
+            return getUserByName(name)

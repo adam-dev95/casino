@@ -1,19 +1,15 @@
 from menu import mainMenu
-from mysqlconnection import get_user, insert_user
+from persistence import loginOrInsertUser
 
 def main():
     user = signin_user()
-    print("Bienvenue {} !".format(user[1]))
+    print("Hello {}, vous avez {} €, Très bien ! Installez vous SVP à la table de pari.\n\t\t\t Je vous expliquerai le principe du jeu : \n".format(user[1], user[3]))
     mainMenu()
 
 def signin_user():
     print("*  *  *  *  *  *  *  *  *  *  *  BIENVENUE DANS LE CASINO  *  *  *  *  *  *  *  *  *  *  *\n")
     name = input("Je suis Python. Quel est votre pseudo ? \n")
-    user = get_user(name)
-    if user is None:
-        insert_user(name)
-        user = get_user(name)
-    return user
+    return loginOrInsertUser(name)
 
 if __name__ == "__main__":
     main()

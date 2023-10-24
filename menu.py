@@ -1,3 +1,6 @@
+from persistence import getUserStatistics
+
+from casino import casino_sextius_sullivan
 def showMenu():
     print("Menu:")
     print("1. Jouer")
@@ -27,16 +30,20 @@ def getMenuChoice():
         print("Veuillez entrer un nombre entier entre 1 et 4")
         return getMenuChoice()
 
-def mainMenu():
+def mainMenu(user):
     showMenu()
     userChoice = getMenuChoice()
     if userChoice == 1:
-        print("Jouer")
+        casino_sextius_sullivan(user)
+
     elif userChoice == 2:
         showRules()
         input("Appuyez sur la touche 'entrer' pour revenir au menu principal")
         mainMenu()
     elif userChoice == 3:
+        stats = getUserStatistics(id)
+        print(stats)
         print("Statistiques")
+
     elif userChoice == 4:
         print("Quitter")

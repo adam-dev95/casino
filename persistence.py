@@ -52,13 +52,13 @@ def loginOrInsertUser(name):
             insert_query = "INSERT INTO users (name) VALUES (%s)"
             cursor.execute(insert_query, (name,))
             connection.commit()
-            return f"Nouvel utilisateur {name} inséré !"
+            return getUserByName(name)
 
-def insertUserStatistics(id_users, bet, gain, level):
+def insertUserStatistics(id_users, bet, gain, level, attempts, hasWin):
     connection, cursor = get_cursor()
     if cursor:
-        query = "INSERT INTO statistics (id_users, bet, gain, level) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (id_users, bet, gain, level))
+        query = "INSERT INTO statistics (id_users, bet, gain, level, attempts, hasWin) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor.execute(query, (id_users, bet, gain, level, attempts, hasWin))
         connection.commit()
 
 def getUserStatistics(id):
@@ -72,4 +72,40 @@ def getUserStatistics(id):
         statistics = {column_names[i]: result[i] for i in range(len(column_names))}
         return statistics
 
+def hasLostGame(user_id, decrement_amount):
+    connection, cursor = get_cursor()
+    if cursor:
+        check_query = "SELECT balance FROM users WHERE id = %s"
+        cursor.execute(check_query, (user_id,))
+        result = cursor.fetchone()
 
+        if result:
+            current_balance = result[0]
+            if current_balance >= decrement_amount:
+                update_query = "UPDATE users SET balance = balance - %s WHERE id = %s"
+                cursor.execute(update_query, (decrement_amount, user_id))
+                connection.commit()
+                return f"Balance mise à jour avec succès. Nouvelle balance : {current_balance - decrement_amount}"
+            else:
+                return "Fonds insuffisants pour le décrément."
+        else:
+            return "L'utilisateur avec l'ID spécifié n'existe pas."
+        
+def hasWinGame(user_id, increment_amount):
+    connection, cursor = get_cursor()
+    if cursor:
+        check_query = "SELECT balance FROM users WHERE id = %s"
+        cursor.execute(check_query, (user_id,))
+        result = cursor.fetchone()
+
+        if result:
+            current_balance = result[0]
+            if current_balance >= decrement_amount:
+                update_query = "UPDATE users SET balance = balance - %s WHERE id = %s"
+                cursor.execute(update_query, (decrement_amount, user_id))
+                connection.commit()
+                return f"Balance mise à jour avec succès. Nouvelle balance : {current_balance - decrement_amount}"
+            else:
+                return "Fonds insuffisants pour le décrément."
+        else:
+            return "L'utilisateur avec l'ID spécifié n'existe pas."

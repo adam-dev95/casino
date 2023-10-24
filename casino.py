@@ -9,10 +9,17 @@ def recommencer_jeu():
 def timeout(INCR_PARTY):
     print("Temps écoulé. Aucune réponse n'a été donnée.")
     INCR_PARTY[0] += 1  # Augmente INCR_PARTY de 1
-    exit()
+
+def demander_nombre_utilisateur():
+    nombre_user = -1
+    while nombre_user < 0:
+        try:
+            nombre_user = int(input("Alors mon nombre est :  "))
+        except ValueError:
+            print("Erreur, veuillez entrer un nombre entier")
+    return nombre_user
 
 def casino_sextius_sullivan(user):
-    
     COMPTEUR = 0
     MISE_JOUEUR = 0
     INCR_PARTY = [0]  # Utilisation d'une liste pour stocker INCR_PARTY
@@ -54,23 +61,12 @@ def casino_sextius_sullivan(user):
         if INCR_PARTY[0] == 1:
             print("Il vous reste une partie")
 
-        nombre_user = -1
-
-        while nombre_user < 0:
-            try:
-                nombre_user = int(input("Alors mon nombre est :  "))
-            except ValueError:
-                print("Erreur, veuillez entrer un nombre entier")
         # Utilisation d'un thread de minuterie pour gérer le délai de 10 secondes
         timer = threading.Timer(10, timeout, args=(INCR_PARTY,))
         timer.start()
 
-        try:
-            nombre_user = int(input("Alors mon nombre est :  "))
-        except ValueError:
-            print("Entrée invalide. Vous devez saisir un nombre entier.")
-            exit()
-        
+        nombre_user = demander_nombre_utilisateur()
+
         # Annuler la minuterie si l'utilisateur a saisi un nombre
         timer.cancel()
 
@@ -103,4 +99,5 @@ def casino_sextius_sullivan(user):
         INCR_PARTY[0] -= 1
         COMPTEUR += 1
 
-
+# Appel de la fonction principale
+casino_sextius_sullivan(user)

@@ -87,6 +87,3 @@ def casino_sextius_sullivan(user):
         
         INCR_PARTY -= 1
         COMPTEUR += 1
-
-# Appel de la fonction principale
-casino_sextius_sullivan(user)

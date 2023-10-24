@@ -9,10 +9,17 @@ def recommencer_jeu():
 def timeout(INCR_PARTY):
     print("Temps écoulé. Aucune réponse n'a été donnée.")
     INCR_PARTY[0] += 1  # Augmente INCR_PARTY de 1
-    exit()
+
+def demander_nombre_utilisateur():
+    nombre_user = -1
+    while nombre_user < 0:
+        try:
+            nombre_user = int(input("Alors mon nombre est :  "))
+        except ValueError:
+            print("Erreur, veuillez entrer un nombre entier")
+    return nombre_user
 
 def casino_sextius_sullivan(user):
-    
     COMPTEUR = 0
     MISE_JOUEUR = 0
     INCR_PARTY = [0]  # Utilisation d'une liste pour stocker INCR_PARTY
@@ -99,5 +106,3 @@ def casino_sextius_sullivan(user):
         
         INCR_PARTY[0] -= 1
         COMPTEUR += 1
-
-

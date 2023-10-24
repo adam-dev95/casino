@@ -1,5 +1,4 @@
 def showMenu():
-    print("*  *  *  *  *  *  *  *  *  *  *  BIENVENUE DANS LE CASINO  *  *  *  *  *  *  *  *  *  *  *\n")
     print("Menu:")
     print("1. Jouer")
     print("2. Règles")

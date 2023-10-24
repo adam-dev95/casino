@@ -87,4 +87,3 @@ def casino_sextius_sullivan(user):
                 break
         INCR_PARTY -= 1
         COMPTEUR += 1
-

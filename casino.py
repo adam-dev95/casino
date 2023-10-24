@@ -68,6 +68,8 @@ def casino_sextius_sullivan(user):
         while nombre_user < 0:
             try:
                 nombre_user = int(input("Alors mon nombre est :  "))
+                if nombre_user < 0:
+                    raise ValueError
             except ValueError:
                 print("Erreur, veuillez entrer un nombre entier")
 

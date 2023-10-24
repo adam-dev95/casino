@@ -66,8 +66,10 @@ def casino_sextius_sullivan(user):
         try:
             nombre_user = int(input("Alors mon nombre est :  "))
         except ValueError:
+            INCR_PARTY = INCR_PARTY + 1
+            COMPTEUR = COMPTEUR + 1
             print("Entrée invalide. Vous devez saisir un nombre entier.")
-            exit()
+            #exit()
         
         # Annuler la minuterie si l'utilisateur a saisi un nombre
         timer.cancel()
@@ -94,9 +96,7 @@ def casino_sextius_sullivan(user):
             hasLostGame(user[0], perte)
             print("Perdu ! Vous avez perdu votre mise, ", perte, "€", "Le nombre était :", NOMBRE_ALEATOIRE)
             insertUserStatistics(user[0], perte, 0, NIVEAU, 3, 0)
-            
             if not recommencer_jeu():
                 break
-        
         INCR_PARTY -= 1
         COMPTEUR += 1
